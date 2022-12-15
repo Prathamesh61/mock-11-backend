@@ -48,6 +48,16 @@ userRouter.post("/login", async (req, res) => {
         }
     })
 })
+userRouter.get("/bookmarks", authentication, async (req, res) => {
+    const { email } = req.body;
+    const user = await userModel.findOne({ email });
+    if (user) {
+        const bookmarks = user.bookmarks;
+        res.send(bookmarks);
+    } else {
+        res.send("Please login First")
+    }
+})
 
 userRouter.post("/bookmarks", authentication, async (req, res) => {
     const { email, title, quantity, priority, description } = req.body;
